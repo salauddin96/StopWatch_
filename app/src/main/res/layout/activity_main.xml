@@ -106,7 +106,9 @@
        <ListView
            android:id="@+id/listView"
            android:layout_width="0dp"
-           android:layout_height="wrap_content"
+           android:layout_height="90dp"
+           android:layout_marginTop="30dp"
+           app:layout_constraintBottom_toBottomOf="parent"
            app:layout_constraintEnd_toEndOf="@+id/lap"
            app:layout_constraintStart_toStartOf="@+id/lap"
            app:layout_constraintTop_toBottomOf="@+id/lap" />
