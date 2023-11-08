@@ -4,6 +4,7 @@ import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Chronometer
 import android.widget.NumberPicker
@@ -18,6 +19,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        var lapsList = ArrayList<String>()
+        var arrayAdapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, lapsList)
+        binding.listView.adapter= arrayAdapter
+        binding.lap.setOnClickListener {
+            if (isRunning) {
+                lapsList.add(binding.chronometer.text.toString())
+                arrayAdapter.notifyDataSetChanged()
+            }
+        }
 
         binding.imageView.setOnClickListener {
 
@@ -37,22 +48,36 @@ class MainActivity : AppCompatActivity() {
         }
         binding.run.setOnClickListener {
             if (isRunning) {
-                isRunning=false
-                if(!minutes.equals("00.00.00")){
-                    var totalmin = minutes!!.toInt()*60*1000L
+                isRunning = false
+                if (!minutes.equals("00.00.00")) {
+                    var totalmin = minutes!!.toInt() * 60 * 1000L
                     var countDown = 1000L
-                    binding.chronometer.base= SystemClock.elapsedRealtime()+totalmin
-                    binding.chronometer.format= "%$ %$"
-                    binding.chronometer.onChronometerTickListener= Chronometer.OnChronometerTickListener {
-                        var elapsedtime = SystemClock.elapsedRealtime()- binding.chronometer.base
-                    }
+                    binding.chronometer.base = SystemClock.elapsedRealtime() + totalmin
+                    binding.chronometer.format = "%S %S"
+                    binding.chronometer.onChronometerTickListener =
+                        Chronometer.OnChronometerTickListener {
+                            var elapsedtime =
+                                SystemClock.elapsedRealtime() - binding.chronometer.base
+                            if (elapsedtime >= totalmin) {
+                                binding.chronometer.stop()
+                                isRunning = false
+                                binding.run.text = "Run"
+                            }
+                        }
                 }
+             else{
+                    binding.chronometer.stop()
+                    isRunning= false
+                    binding.run.text= "Run"
 
-            }
-            else{
+            }}
+            else {
                 isRunning=true
+                binding.chronometer.base = SystemClock.elapsedRealtime()
+                binding.run.text = "Stop"
+                binding.chronometer.start()
             }
+
         }
-        binding.chronometer.start()
     }
 }

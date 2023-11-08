@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">MyStopWatchApp</string>
+    <string name="stop_watch">Stop Watch</string>
+    <string name="applogo">applogo</string>
+    <string name="run">Run</string>
 </resources>
