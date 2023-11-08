@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
 import android.widget.Button
+import android.widget.Chronometer
 import android.widget.NumberPicker
 import org.techtales.mystopwatchapp.databinding.ActivityMainBinding
 
@@ -42,6 +43,9 @@ class MainActivity : AppCompatActivity() {
                     var countDown = 1000L
                     binding.chronometer.base= SystemClock.elapsedRealtime()+totalmin
                     binding.chronometer.format= "%$ %$"
+                    binding.chronometer.onChronometerTickListener= Chronometer.OnChronometerTickListener {
+                        var elapsedtime = SystemClock.elapsedRealtime()- binding.chronometer.base
+                    }
                 }
 
             }
@@ -49,5 +53,6 @@ class MainActivity : AppCompatActivity() {
                 isRunning=true
             }
         }
+        binding.chronometer.start()
     }
 }
