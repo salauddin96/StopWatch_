@@ -11,19 +11,25 @@ class MainActivity : AppCompatActivity() {
     val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
+    var isRunning = false
+    private var minutes = "00.00.00"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        var dialog = Dialog(this)
-        dialog.setContentView(R.layout.dialog)
-        var numberPicker = dialog.findViewById<NumberPicker>(R.id.numberPicker)
-        numberPicker.minValue = 0
-        numberPicker.maxValue = 5
-        dialog.findViewById<Button>(R.id.setTime).setOnClickListener {
-            binding.clockTime.text =  dialog.findViewById<NumberPicker>(R.id.numberPicker).value.toString()+ " mins"
-            dialog.dismiss()
+        binding.imageView.setOnClickListener {
+
+            var dialog = Dialog(this)
+            dialog.setContentView(R.layout.dialog)
+            var numberPicker = dialog.findViewById<NumberPicker>(R.id.numberPicker)
+            numberPicker.minValue = 0
+            numberPicker.maxValue = 5
+            dialog.findViewById<Button>(R.id.setTime).setOnClickListener {
+                binding.clockTime.text =
+                    dialog.findViewById<NumberPicker>(R.id.numberPicker).value.toString() + " mins"
+                dialog.dismiss()
+            }
+            dialog.show()
         }
-        dialog.show()
     }
 }
